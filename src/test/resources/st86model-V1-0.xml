@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<st86:Transaction xmlns:st86="http://www.wipo.int/standards/XMLSchema/designs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:fr="http//www.inpi.fr/XMLSchema/designs"
+	xsi:schemaLocation="
+		http://www.wipo.int/standards/XMLSchema/designs schemas/st86model-V1-0.xsd
+		http//www.inpi.fr/XMLSchema/designs schemas/st86model-V1-0-fr.xsd
+		"
+>
+
+<st86:TransactionHeader>
+</st86:TransactionHeader>

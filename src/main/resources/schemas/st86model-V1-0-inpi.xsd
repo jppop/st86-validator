@@ -1,0 +1,3205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by INPI (INPI) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.wipo.int/standards/XMLSchema/designs" targetNamespace="http://www.wipo.int/standards/XMLSchema/designs" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<!-- 
+		**********************  Modifications introduites dans ST86ModelForINPI.xsd  *********************
+		
+		DesignType : Autoriser plusieurs DesignTitle.
+		DesignType : Autoriser plusieurs DesignDescription.
+		DesignType : Autoriser le groupe DesignRecordDetails au niveau DesignType.
+		PriorityType : Les noeuds PriorityCountryCode et PriorityNumber sont rendus optionnels et non plus obligatoires.
+		DesignBasicRecordKindType : Extension de la liste des DesignBasicRecordKindType .
+		ViewType : Ajout d'un view sequenceNumber et d'un viewNumber
+		DesignType : Le noeud ApplicantDetails est optionnel
+		*********************************************************************************************************
+	-->
+	<!-- ********************************************************************** -->
+	<!-- *                                                                    * -->
+	<!-- *     WIPO Standard ST.86 Model Schema Version 1.0, published in February 2008      * -->
+	<!-- *                                                                    * -->
+	<!-- *     Filename    : st86model-V1-0.xsd                               * -->
+	<!-- *     Author      : SDWG ST.86 Task Force                            * -->
+	<!-- *     Version     : 1.0                                              * -->
+	<!-- *     Last Update : 2008-02-21                                       * -->
+	<!-- *     Contact     : xml.standards@wipo.int                           * -->
+	<!-- *                                                                    * -->
+	<!-- ********************************************************************** -->
+	<xs:annotation>
+		<xs:documentation>WIPO Standard ST.86 Model Schema Version 1.0, 17 December 2007</xs:documentation>
+	</xs:annotation>
+	<!-- ====================================================================== -->
+	<!-- Include of external referenced standard types                          -->
+	<!-- ====================================================================== -->
+	<xs:include schemaLocation="http://www.wipo.int/standards/XMLSchema/common/ISOCountryCodeType-V2006.xsd"/>
+	<xs:include schemaLocation="http://www.wipo.int/standards/XMLSchema/common/ISOCurrencyCodeType-V2001.xsd"/>
+	<xs:include schemaLocation="http://www.wipo.int/standards/XMLSchema/common/ISOLanguageCodeType-V2002.xsd"/>
+	<xs:include schemaLocation="http://www.wipo.int/standards/XMLSchema/common/WIPOST3CodeType-V2007.xsd"/>
+	<!-- ********************************************************************** -->
+	<!-- ********************************************************************** -->
+	<!-- * TRANSACTION/MESSAGE TYPES LIBRARY ********************************** -->
+	<!-- ********************************************************************** -->
+	<!-- ********************************************************************** -->
+	<!-- ====================================================================== -->
+	<!-- Root Messages                                                          -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- Top Level Transaction for all Types of Message                         -->
+	<!-- ====================================================================== -->
+	<xs:element name="Transaction" type="TransactionType"/>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionBodyType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="TransactionBodyType">
+		<xs:sequence>
+			<xs:element name="TransactionErrorDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TransactionError" type="TransactionErrorType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TransactionContentDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TransactionIdentifier" type="xs:string" minOccurs="0"/>
+						<xs:element name="TransactionCode" type="TransactionCodeType"/>
+						<xs:element name="TransactionSubCode" type="TransactionSubCodeType" minOccurs="0"/>
+						<xs:element name="TransactionData" type="TransactionDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionDataType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="TransactionDataType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<!-- ================================================================= -->
+				<!-- Design Application                                                -->
+				<!-- ================================================================= -->
+				<xs:element name="DesignApplicationDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DesignApplication" type="DesignApplicationType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- ================================================================= -->
+				<!-- Set of Designs                                                    -->
+				<!-- ================================================================= -->
+				<xs:element name="DesignDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Design" type="DesignType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- ================================================================= -->
+				<!-- Only Set of Applicants                                            -->
+				<!-- ================================================================= -->
+				<xs:element name="ApplicantDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Applicant" type="ApplicantType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- ================================================================= -->
+				<!-- Only Set of Representatives                                       -->
+				<!-- ================================================================= -->
+				<xs:element name="RepresentativeDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- ================================================================= -->
+				<!-- Set of Design Records                                             -->
+				<!-- ================================================================= -->
+				<xs:element name="DesignRecordDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DesignRecord" type="DesignRecordType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- ================================================================= -->
+				<!-- Set of Design Record Relations                                    -->
+				<!-- ================================================================= -->
+				<xs:element name="DesignRecordRelationDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DesignRecordRelation" type="DesignRecordRelationType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionErrorType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="TransactionErrorType">
+		<xs:sequence>
+			<xs:element name="TransactionErrorCode" type="xs:token" minOccurs="0"/>
+			<xs:element name="TransactionErrorText" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionHeaderType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="TransactionHeaderType">
+		<xs:sequence>
+			<xs:element name="SenderDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RequestIdentifier" type="xs:string" minOccurs="0"/>
+						<xs:element name="RequestLanguageCode" type="ISOLanguageCodeType" minOccurs="0"/>
+						<xs:element name="RequestXSDVersion" type="xs:string" minOccurs="0"/>
+						<xs:element name="RequestFilename" type="xs:string" minOccurs="0"/>
+						<xs:element name="RequestStatus" type="xs:string" minOccurs="0"/>
+						<xs:element name="RequestProducer" type="xs:string" minOccurs="0"/>
+						<xs:choice minOccurs="0">
+							<xs:element name="RequestProducerDate" type="xs:date"/>
+							<xs:element name="RequestProducerDateTime" type="xs:dateTime"/>
+						</xs:choice>
+						<xs:element name="RequestReceivingOfficeCode" type="WIPOST3CodeType" minOccurs="0"/>
+						<xs:element name="LoginInformation" type="LoginInformationType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReceiverDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReceiverDateTime" type="xs:dateTime" minOccurs="0"/>
+						<xs:element name="Comment" type="TextType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="TransactionType">
+		<xs:sequence>
+			<xs:element name="TransactionHeader" type="TransactionHeaderType" minOccurs="0"/>
+			<!-- ================================================================= -->
+			<!-- Design transaction                                                -->
+			<!-- ================================================================= -->
+			<xs:element name="DesignTransactionBody" type="TransactionBodyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ********************************************************************** -->
+	<!-- ********************************************************************** -->
+	<!-- * BUSINESS TYPES LIBRARY ********************************************* -->
+	<!-- ********************************************************************** -->
+	<!-- ********************************************************************** -->
+	<!-- ====================================================================== -->
+	<!-- Filename    : AddressBookType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="AddressBookType">
+		<xs:sequence>
+			<xs:element name="AddressLanguageCode" type="ISOLanguageCodeType" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="FreeFormatAddressDetails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FreeFormatNameAddressLine" type="TextType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FormattedNameAddress" type="FormattedNameAddressType"/>
+			</xs:choice>
+			<xs:element name="ContactInformationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" type="PhoneType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Fax" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Email" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="URL" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OtherElectronicAddress" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PostalAddress" type="xs:string" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : AddressType.xsd                                          -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="AddressCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="FreeFormatAddress">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FreeFormatAddressLine" type="TextType" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FormattedAddress">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AddressLine" type="TextType" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="AddressMailCode" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressPostOfficeBox" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressRoom" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressFloor" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressBuilding" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressStreet" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressCity" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressCounty" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressState" type="xs:string" minOccurs="0"/>
+							<xs:element name="AddressPostcode" type="xs:string" minOccurs="0"/>
+							<xs:element name="FormattedAddressCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ApplicantType.xsd                                        -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ApplicantType">
+		<xs:sequence>
+			<xs:element name="ApplicantIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ApplicantSequenceNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="ApplicantNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="ApplicantLegalEntity" type="xs:string" minOccurs="0"/>
+			<xs:element name="ApplicantIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+			<xs:element name="ApplicantIncorporationState" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="ApplicantAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:element name="ApplicantEntitlement" type="EntitlementType" minOccurs="0"/>
+			<xs:element name="ApplicantContractingParty" type="ExtendedWIPOST3CodeType" minOccurs="0"/>
+			<xs:element name="ApplicantVersion" type="VersionType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : AuthorizationType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="AuthorizationType">
+		<xs:sequence>
+			<xs:element name="AuthorizationIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="AuthorizationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="AuthorizationKind" type="AuthorizationKindType" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="AuthorizationDocumentSupply" type="AuthorizationDocumentSupplyType" minOccurs="0"/>
+			<xs:element name="AuthorizationDocument" type="DocumentType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CardAccountType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="CardAccountType">
+		<xs:sequence>
+			<xs:element name="CardPrimaryAccountNumber" type="xs:string"/>
+			<xs:element name="CardNetworkIdentifier" type="xs:string"/>
+			<xs:element name="CardKindCode" type="CardKindCodeType" minOccurs="0"/>
+			<xs:element name="CardCustomerIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="CardValidityStartDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CardExpiryDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CardIssuerIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="CardIssueNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="CardCV2Identifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="CardChipCode" type="ChipCodeType" minOccurs="0"/>
+			<xs:element name="CardChipApplicationIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="CardHolderName" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CitationReferenceType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="CitationReferenceType">
+		<xs:sequence>
+			<xs:element name="CitationIdentifier" type="IdentifierType" minOccurs="0"/>
+			<xs:element name="CitationKind" type="CitationKindType" minOccurs="0"/>
+			<xs:element name="CitationDescription" type="TextType" minOccurs="0"/>
+			<xs:element name="CitationDocument" type="DocumentType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ClaimantType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ClaimantType">
+		<xs:sequence>
+			<xs:element name="ClaimantIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimantSequenceNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="ClaimantNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="ClaimantLegalEntity" type="xs:string" minOccurs="0"/>
+			<xs:element name="ClaimantIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+			<xs:element name="ClaimantIncorporationState" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="ClaimantAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:element name="ClaimantEntitlement" type="EntitlementType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ClassDescriptionType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ClassDescriptionType">
+		<xs:sequence>
+			<xs:element name="ClassNumber" type="ClassNumberType" minOccurs="0"/>
+			<xs:element name="ProductDescription" type="TextType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CorrespondenceAddressKeyType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="CorrespondenceAddressKeyType">
+		<xs:sequence>
+			<xs:element name="CorrespondenceAddressIdentifier" type="IdentifierType"/>
+			<xs:element name="CorrespondenceAddressParty" type="CorrespondenceAddressPartyType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CorrespondenceAddressType.xsd                            -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="CorrespondenceAddressType">
+		<xs:sequence>
+			<xs:element name="CorrespondenceAddressIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="CorrespondenceAddressParty" type="CorrespondenceAddressPartyType" minOccurs="0"/>
+			<xs:element name="CorrespondenceAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignApplicationEventType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignApplicationEventType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="DesignApplicationEventDate" type="xs:date"/>
+				<xs:element name="DesignApplicationEventDateTime" type="xs:dateTime"/>
+			</xs:choice>
+			<xs:element name="DesignApplicationEventCode" type="DesignApplicationEventCodeType"/>
+			<xs:element name="DesignApplicationEventResponseDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignApplicationType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignApplicationType">
+		<xs:sequence>
+			<xs:element name="RequestSoftware" type="RequestSoftwareType" minOccurs="0"/>
+			<xs:element name="DesignApplicationFormName" type="xs:string" minOccurs="0"/>
+			<xs:element name="RequestExamination" type="RequestExaminationType" minOccurs="0"/>
+			<xs:element name="RegistrationOfficeCode" type="WIPOST3CodeType"/>
+			<xs:element name="ReceivingOfficeCode" type="WIPOST3CodeType" minOccurs="0"/>
+			<xs:element name="ReceivingOfficeDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="ReceiptNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="SealedDepositIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="DesignApplicationNumber" type="xs:string" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="DesignApplicationDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="DesignApplicationDateTime" type="xs:dateTime" minOccurs="0"/>
+			</xs:choice>
+			<xs:element name="FilingPlace" type="xs:string" minOccurs="0"/>
+			<xs:element name="DesignApplicationReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="DesignApplicationLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="SecondLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="TotalDesign" type="xs:positiveInteger" minOccurs="0"/>
+			<xs:element name="CorrespondenceLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="DesignApplicationCurrentStatusCode" type="DesignApplicationCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="DesignApplicationCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DesignatedCountryDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignatedCountry" type="DesignatedCountryType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DesignDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Design" type="DesignType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ApplicantDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="ApplicantKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Applicant" type="ApplicantType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="RepresentativeKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Authorization" type="AuthorizationType" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="CorrespondenceAddressKey" type="CorrespondenceAddressKeyType" minOccurs="0"/>
+				<xs:element name="CorrespondenceAddress" type="CorrespondenceAddressType" minOccurs="0"/>
+			</xs:choice>
+			<xs:element name="DesignApplicationEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignApplicationEvent" type="DesignApplicationEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DocumentIncludedDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DocumentIncluded" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DesignApplicationStatementDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignApplicationStatementText" type="TextType" minOccurs="0"/>
+						<xs:element name="DesignApplicationStatementDocument" type="DocumentType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PaymentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Payment" type="PaymentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReimbursementDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Reimbursement" type="ReimbursementType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SignatoryDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Signatory" type="SignatoryType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignBasicRecordType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignBasicRecordType">
+		<xs:sequence>
+			<xs:element name="RecordIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordFilingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordNotificationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordEffectiveDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="BasicRecordKind" type="DesignBasicRecordKindType" minOccurs="0"/>
+			<xs:element name="RecordReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="DesignKeyDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignKey" type="KeyType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordPublicationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordPublication" type="PublicationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimantDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="ClaimantKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Claimant" type="ClaimantType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="RepresentativeKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordEvent" type="RecordEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordDocumentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordDocument" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordCurrentStatusCode" type="RecordCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="RecordCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordInterestedOfficeCode" type="ExtendedWIPOST3CodeType" minOccurs="0"/>
+			<xs:element name="RecordDesignatedCountryDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordDesignatedCountryCode" type="ExtendedWIPOST3CodeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LimitationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Limitation" type="LimitationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignEventType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignEventType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="DesignEventDate" type="xs:date"/>
+				<xs:element name="DesignEventDateTime" type="xs:dateTime"/>
+			</xs:choice>
+			<xs:element name="DesignEventCode" type="DesignEventCodeType"/>
+			<xs:element name="DesignEventResponseDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignRecordRelationType.xsd                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignRecordRelationType">
+		<xs:sequence>
+			<xs:element name="DesignKey" type="KeyType"/>
+			<xs:element name="RecordKey" type="KeyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignRecordType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignRecordType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="DesignBasicRecord" type="DesignBasicRecordType"/>
+				<xs:element name="RecordTransfer" type="RecordTransferType"/>
+				<xs:element name="RecordChangeNameAddress" type="RecordChangeNameAddressType"/>
+				<xs:element name="RecordLicence" type="RecordLicenceType"/>
+			</xs:choice>
+			<xs:element name="StaffDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Staff" type="StaffType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignRepresentationSheetType.xsd                        -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignRepresentationSheetType">
+		<xs:sequence>
+			<xs:element name="RepresentationSheetFilename" type="xs:string" minOccurs="0"/>
+			<xs:element name="RepresentationSheetFileFormat" type="FileFormatType" minOccurs="0"/>
+			<xs:element name="RepresentationSheetColourIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="ViewDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="View" type="ViewType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignSpecimenType.xsd                                   -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignSpecimenType">
+		<xs:sequence>
+			<xs:element name="SpecimenIdentifier" type="xs:string"/>
+			<xs:element name="SpecimenKind" type="DesignSpecimenKindType" minOccurs="0"/>
+			<xs:element name="SpecimenDescription" type="TextType" minOccurs="0"/>
+			<xs:element name="SpecimenFilename" type="xs:string" minOccurs="0"/>
+			<xs:element name="SpecimenFileFormat" type="FileFormatType" minOccurs="0"/>
+			<xs:element name="SpecimenColourIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignType.xsd                                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-12-18                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignType">
+		<xs:sequence>
+			<xs:element name="DesignIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="DesignReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="RegistrationNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="RegistrationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DesignTitle" type="TextType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DesignDescription" type="TextType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PublicationKindDescription" type="TextType" minOccurs="0"/>
+			<xs:element name="NoveltyStatement" type="TextType" minOccurs="0"/>
+			<xs:element name="PartialDesignIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="PartialDisclaimer" type="TextType" minOccurs="0"/>
+			<xs:element name="PublicationDefermentIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="DefermentPeriod" type="PeriodType" minOccurs="0"/>
+			<xs:element name="ColourIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="DesignerWaiverIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="PublicationInColourIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="ImmediatePublicationIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="DescriptionPublicationIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="DesignOpenToLicensingIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="TotalSpecimen" type="xs:nonNegativeInteger" minOccurs="0"/>
+			<xs:element name="TotalRepresentationSheet" type="xs:integer" minOccurs="0"/>
+			<xs:element name="TotalColourView" type="xs:positiveInteger" minOccurs="0"/>
+			<xs:element name="TotalBWView" type="xs:positiveInteger" minOccurs="0"/>
+			<xs:element name="ExpiryDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DesignCurrentStatusCode" type="DesignCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="DesignCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DesignSpecimenDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignSpecimen" type="DesignSpecimenType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DesignRepresentationSheetDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignRepresentationSheet" type="DesignRepresentationSheetType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IndicationProductDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IndicationProduct" type="IndicationProductType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PriorityDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Priority" type="PriorityType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExhibitionPriorityDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ExhibitionPriority" type="ExhibitionPriorityType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RelatedApplicationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RelatedApplication" type="RelatedApplicationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StaffDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Staff" type="StaffType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PublicationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Publication" type="PublicationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CitationReferenceDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CitationReference" type="CitationReferenceType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ApplicantDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="ApplicantKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Applicant" type="ApplicantType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="RepresentativeKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DesignerDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="DesignerKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Designer" type="DesignerType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DesignEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignEvent" type="DesignEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OppositionDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Opposition" type="OppositionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DesignRecordDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignRecord" type="DesignRecordType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignatedCountryType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignatedCountryType">
+		<xs:sequence>
+			<xs:element name="DesignatedCountryCode" type="ExtendedWIPOST3CodeType"/>
+			<xs:element name="DesignatedUnderCode" type="DesignatedUnderCodeType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignerType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DesignerType">
+		<xs:sequence>
+			<xs:element name="DesignerIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DesignerSequenceNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="DesignerNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="Comment" type="xs:string" minOccurs="0"/>
+			<xs:element name="DesignerAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DocumentType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="DocumentType">
+		<xs:sequence>
+			<xs:element name="DocumentName" type="xs:string" minOccurs="0"/>
+			<xs:element name="DocumentFilename" type="xs:string" minOccurs="0"/>
+			<xs:element name="DocumentFileFormat" type="FileFormatType" minOccurs="0"/>
+			<xs:element name="DocumentDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DocumentLanguageCode" type="ISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="DocumentMedia" type="DocumentMediaType" minOccurs="0"/>
+			<xs:element name="DocumentLocation" type="xs:string" minOccurs="0"/>
+			<xs:element name="DocumentVersion" type="xs:string" minOccurs="0"/>
+			<xs:element name="DocumentSizeInByte" type="xs:integer" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="DocumentBinary" type="xs:base64Binary" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : EarlierDesignType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="EarlierDesignType">
+		<xs:sequence>
+			<xs:element name="EarlierDesignCountryCode" type="WIPOST3CodeType" minOccurs="0"/>
+			<xs:element name="EarlierDesignKind" type="EarlierDesignKindType" minOccurs="0"/>
+			<xs:element name="DesignApplicationIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="DesignApplicationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DesignRegistrationIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="DesignRegistrationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="DesignRepresentationSheetDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignRepresentationSheet" type="DesignRepresentationSheetType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : EntitlementType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="EntitlementType">
+		<xs:sequence>
+			<xs:element name="EntitlementNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="HabitualResidence" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="HabitualResidenceCode" type="NationalityCodeType" minOccurs="0"/>
+						<xs:element name="HabitualResidenceAddressBook" type="AddressBookType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EntitlementEstablishment" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EntitlementEstablishmentCode" type="NationalityCodeType" minOccurs="0"/>
+						<xs:element name="EntitlementEstablishmentAddressBook" type="AddressBookType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EntitlementDomiciled" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EntitlementDomiciledCode" type="NationalityCodeType" minOccurs="0"/>
+						<xs:element name="EntitlementDomiciledAddressBook" type="AddressBookType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ExhibitionPriorityType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ExhibitionPriorityType">
+		<xs:sequence>
+			<xs:element name="ExhibitionCountryCode" type="ExtendedISOCountryCodeType" minOccurs="0"/>
+			<xs:element name="ExhibitionCityName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ExhibitionName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ExhibitionDate" type="xs:date"/>
+			<xs:element name="ExhibitionFirstDisplayDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="ExhibitionStatusCode" type="ExhibitionStatusCodeType" minOccurs="0"/>
+			<xs:element name="ExhibitionStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="ExhibitionDocument" type="DocumentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : FormattedNameAddressType.xsd                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="FormattedNameAddressType">
+		<xs:sequence>
+			<xs:element name="Name" type="NameType" minOccurs="0"/>
+			<xs:element name="Address" type="AddressType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : FreeFormatNameType.xsd                                   -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="FreeFormatNameType">
+		<xs:sequence>
+			<xs:element name="NameKind" type="NameKindType" minOccurs="0"/>
+			<xs:element name="FreeFormatNameDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FreeFormatNameLine" type="TextType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : IndicationProductType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="IndicationProductType">
+		<xs:sequence>
+			<xs:element name="ClassificationKindCode" type="ClassificationKindCodeType" minOccurs="0"/>
+			<xs:element name="ClassificationVersion" type="xs:string" minOccurs="0"/>
+			<xs:element name="IndicationProductDescription" type="TextType" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="ClassDescriptionDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ClassDescription" type="ClassDescriptionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : KeyType.xsd                                              -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="KeyType">
+		<xs:sequence>
+			<xs:element name="Identifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LicenceEventType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="LicenceEventType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="LicenceEventDate" type="xs:date"/>
+				<xs:element name="LicenceEventDateTime" type="xs:dateTime"/>
+			</xs:choice>
+			<xs:element name="LicenceEventCode" type="LicenceEventCodeType"/>
+			<xs:element name="LicenceEventResponseDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LicenceType.xsd                                          -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="LicenceType">
+		<xs:sequence>
+			<xs:element name="LicenceIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="LicenceDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="LicenceNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="LicenceReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="LicenceKind" type="LicenceKindType" minOccurs="0"/>
+			<xs:element name="SubLicenceIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="RelatedLicenceIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="LimitationIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Limitation" type="LimitationType" minOccurs="0"/>
+			<xs:element name="TerritoryLimitationIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="TerritoryLimitationText" type="TextType" minOccurs="0"/>
+			<xs:element name="PeriodLimitationIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="PeriodLimitationText" type="TextType" minOccurs="0"/>
+			<xs:element name="PeriodLimitationStartDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="PeriodLimitationEndDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="LicenceStatusCode" type="LicenceStatusCodeType" minOccurs="0"/>
+			<xs:element name="LicenseeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Licensee" type="LicenseeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LicenceEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LicenceEvent" type="LicenceEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LicenceDocumentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LicenceDocument" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LicenseeType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="LicenseeType">
+		<xs:sequence>
+			<xs:element name="LicenseeIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LicenseeSequenceNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="LicenseeNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="LicenseeLegalEntity" type="xs:string" minOccurs="0"/>
+			<xs:element name="LicenseeIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+			<xs:element name="LicenseeIncorporationState" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="LicenseeAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:element name="LicenseeEntitlement" type="EntitlementType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LimitationType.xsd                                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="LimitationType">
+		<xs:sequence>
+			<xs:element name="LimitationCountryDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LimitationCountryCode" type="ExtendedWIPOST3CodeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LimitationCode" type="LimitationCodeType" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="LimitationClassDescriptionDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ClassDescription" type="ClassDescriptionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LoginInformationType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="LoginInformationType">
+		<xs:sequence>
+			<xs:element name="Login" type="xs:string" minOccurs="0"/>
+			<xs:element name="LoginEmail" type="xs:string" minOccurs="0"/>
+			<xs:element name="Password" type="xs:anySimpleType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : NameType.xsd                                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="NameType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="FreeFormatName" type="FreeFormatNameType"/>
+				<xs:element name="FormattedName">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NamePrefix" type="xs:string" minOccurs="0"/>
+							<xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+							<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+							<xs:element name="LastName" type="xs:string" minOccurs="0"/>
+							<xs:element name="SecondLastName" type="xs:string" minOccurs="0"/>
+							<xs:element name="NameSuffix" type="xs:string" minOccurs="0"/>
+							<xs:element name="Gender" type="GenderType" minOccurs="0"/>
+							<xs:element name="IndividualIdentifier" type="IndividualIdentifierType" minOccurs="0"/>
+							<xs:element name="PersonRole" type="xs:string" minOccurs="0"/>
+							<xs:element name="OrganizationName" type="xs:string" minOccurs="0"/>
+							<xs:element name="OrganizationDepartment" type="xs:string" minOccurs="0"/>
+							<xs:element name="NameSynonym" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OpponentType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="OpponentType">
+		<xs:sequence>
+			<xs:element name="OpponentIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="OpponentNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="OpponentLegalEntity" type="xs:string" minOccurs="0"/>
+			<xs:element name="OpponentIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+			<xs:element name="OpponentIncorporationState" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="OpponentAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:element name="OpponentEntitlement" type="EntitlementType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OppositionEventType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="OppositionEventType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="OppositionEventDate" type="xs:date"/>
+				<xs:element name="OppositionEventDateTime" type="xs:dateTime"/>
+			</xs:choice>
+			<xs:element name="OppositionEventCode" type="OppositionEventCodeType"/>
+			<xs:element name="OppositionEventResponseDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OppositionType.xsd                                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="OppositionType">
+		<xs:sequence>
+			<xs:element name="OppositionIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="OppositionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="OppositionReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="OppositionLanguageCode" type="ISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="ProceedingLanguageCode" type="ISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="EarlierRightDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="EarlierRightKind" type="EarlierRightKindType" minOccurs="0"/>
+			<xs:element name="OppositionBasisCode" type="OppositionBasisCodeType" minOccurs="0"/>
+			<xs:element name="OppositionGroundText" type="TextType" minOccurs="0"/>
+			<xs:element name="OppositionExtentText" type="TextType" minOccurs="0"/>
+			<xs:element name="OppositionCurrentStatusCode" type="OppositionCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="OppositionCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="EarlierDesignDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EarlierDesign" type="EarlierDesignType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OpponentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Opponent" type="OpponentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OppositionEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OppositionEvent" type="OppositionEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OppositionDocumentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OppositionDocument" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PaymentFeeType.xsd                                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PaymentFeeType">
+		<xs:sequence>
+			<xs:element name="FeeIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="FeeReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="FeeAmount" type="AmountType"/>
+			<xs:element name="FeeUnitQuantity" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="FeeUnitAmount" type="AmountType" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PaymentMethodType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PaymentMethodType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Account">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AccountIdentifier" type="xs:string"/>
+							<xs:element name="AccountKind" type="xs:string" minOccurs="0"/>
+							<xs:element name="AccountHolderName" type="TextType" minOccurs="0"/>
+							<xs:element name="AccountDebitKind" type="AccountDebitKindType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CardAccount" type="CardAccountType"/>
+				<xs:element name="Cheque">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ChequeIdentifier" type="xs:string"/>
+							<xs:element name="ChequeKind" type="xs:string" minOccurs="0"/>
+							<xs:element name="BankName" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BankTransfer">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BankTransferIdentifier" type="xs:string"/>
+							<xs:element name="BankTransferDate" type="xs:date"/>
+							<xs:element name="OriginBankName" type="xs:string" minOccurs="0"/>
+							<xs:element name="BankDestinationAccount" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OtherPaymentMethod" type="xs:string" minOccurs="0"/>
+			</xs:choice>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PaymentType.xsd                                          -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PaymentType">
+		<xs:sequence>
+			<xs:element name="PaymentIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="PaymentReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="PayerName" type="NameType" minOccurs="0"/>
+			<xs:element name="PaymentStatus" type="PaymentStatusCodeType" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="PaymentDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="PaymentMethod" type="PaymentMethodType" minOccurs="0"/>
+			<xs:element name="PaymentFeeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PaymentFee" type="PaymentFeeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PriorityType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PriorityType">
+		<xs:sequence>
+			<xs:element name="PriorityCountryCode" type="ExtendedWIPOST3CodeType" minOccurs="0"/>
+			<xs:element name="PriorityNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="PriorityDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="PriorityHolderName" type="TextType" minOccurs="0"/>
+			<xs:element name="PriorityStatusCode" type="PriorityStatusCodeType" minOccurs="0"/>
+			<xs:element name="PriorityStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="PriorityDocument" type="DocumentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PublicationType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PublicationType">
+		<xs:sequence>
+			<xs:element name="PublicationIdentifier" type="xs:string"/>
+			<xs:element name="PublicationSection" type="PublicationSectionType" minOccurs="0"/>
+			<xs:element name="PublicationSubsection" type="PublicationSubsectionType" minOccurs="0"/>
+			<xs:element name="PublicationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="PublicationPage" type="xs:string" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordChangeNameAddressType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RecordChangeNameAddressType">
+		<xs:sequence>
+			<xs:element name="RecordIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordFilingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordNotificationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordEffectiveDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordChangeNameAddressKind" type="RecordChangeNameAddressKindType"/>
+			<xs:element name="RecordReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="DesignKeyDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignKey" type="KeyType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordPublicationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordPublication" type="PublicationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimantDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="ClaimantKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Claimant" type="ClaimantType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="RepresentativeKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordEvent" type="RecordEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordDocumentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordDocument" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordCurrentStatusCode" type="RecordCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="RecordCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CorrespondenceAddress" type="CorrespondenceAddressType" minOccurs="0"/>
+			<xs:element name="HolderDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="PreviousHolder" type="ApplicantType" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="NewHolder" type="ApplicantType" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordEventType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RecordEventType">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="RecordEventDate" type="xs:date"/>
+				<xs:element name="RecordEventDateTime" type="xs:dateTime"/>
+			</xs:choice>
+			<xs:element name="RecordEventCode" type="RecordEventCodeType"/>
+			<xs:element name="RecordEventResponseDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordLicenceType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RecordLicenceType">
+		<xs:sequence>
+			<xs:element name="RecordIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordFilingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordNotificationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordEffectiveDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordLicenceKind" type="RecordLicenceKindType"/>
+			<xs:element name="RecordReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="DesignKeyDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignKey" type="KeyType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordPublicationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordPublication" type="PublicationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimantDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="ClaimantKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Claimant" type="ClaimantType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="RepresentativeKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordEvent" type="RecordEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordDocumentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordDocument" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordCurrentStatusCode" type="RecordCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="RecordCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordInterestedOfficeCode" type="ExtendedWIPOST3CodeType" minOccurs="0"/>
+			<xs:element name="RecordDesignatedCountryDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordDesignatedCountryCode" type="ExtendedWIPOST3CodeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LicenceDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Licence" type="LicenceType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordTransferType.xsd                                   -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RecordTransferType">
+		<xs:sequence>
+			<xs:element name="RecordIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordFilingDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordNotificationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordEffectiveDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RecordTransferKind" type="RecordTransferKindType"/>
+			<xs:element name="RecordReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="RecordLanguageCode" type="ExtendedISOLanguageCodeType" minOccurs="0"/>
+			<xs:element name="DesignKeyDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DesignKey" type="KeyType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordPublicationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordPublication" type="PublicationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimantDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="ClaimantKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Claimant" type="ClaimantType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepresentativeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="RepresentativeKey" type="KeyType" maxOccurs="unbounded"/>
+							<xs:element name="Representative" type="RepresentativeType" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordEventDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordEvent" type="RecordEventType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordDocumentDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RecordDocument" type="DocumentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecordCurrentStatusCode" type="RecordCurrentStatusCodeType" minOccurs="0"/>
+			<xs:element name="RecordCurrentStatusDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CorrespondenceAddress" type="CorrespondenceAddressType" minOccurs="0"/>
+			<xs:element name="HolderDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="PreviousHolder" type="ApplicantType" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="NewHolder" type="ApplicantType" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LimitationDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Limitation" type="LimitationType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ReimbursementFeeType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ReimbursementFeeType">
+		<xs:sequence>
+			<xs:element name="FeeIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="FeeReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="FeeAmount" type="AmountType"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ReimbursementType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ReimbursementType">
+		<xs:sequence>
+			<xs:element name="ReimbursementIdentifier" type="xs:string" minOccurs="0"/>
+			<xs:element name="ReimbursementReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="PayeeName" type="NameType" minOccurs="0"/>
+			<xs:element name="ReimbursementStatus" type="ReimbursementStatusCodeType" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="ReimbursementDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="ReimbursementMethod" type="PaymentMethodType" minOccurs="0"/>
+			<xs:element name="ReimbursementFeeDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReimbursementFee" type="ReimbursementFeeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RelatedApplicationType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RelatedApplicationType">
+		<xs:sequence>
+			<xs:element name="RelatedApplicationNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="RelatedApplicationDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RelatedApplicationReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="RelatedApplicationRegistrationNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="RelatedApplicationKind" type="RelatedApplicationKindType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RepresentativeType.xsd                                   -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RepresentativeType">
+		<xs:sequence>
+			<xs:element name="RepresentativeIdentifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="RepresentativeSequenceNumber" type="xs:integer" minOccurs="0"/>
+			<xs:element name="RepresentativeKindCode" type="RepresentativeKindCodeType" minOccurs="0"/>
+			<xs:element name="RepresentativeNationalityCode" type="NationalityCodeType" minOccurs="0"/>
+			<xs:element name="RepresentativeLegalEntity" type="xs:string" minOccurs="0"/>
+			<xs:element name="RepresentativeIncorporationCountryCode" type="ISOCountryCodeType" minOccurs="0"/>
+			<xs:element name="RepresentativeIncorporationState" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:element name="RepresentativeAddressBook" type="AddressBookType" minOccurs="0"/>
+			<xs:element name="RepresentativeVersion" type="VersionType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operationCode" type="OperationCodeType" use="optional"/>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RequestExaminationType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RequestExaminationType">
+		<xs:sequence>
+			<xs:element name="RequestExaminationAuthority" type="xs:string" minOccurs="0"/>
+			<xs:element name="RequestExaminationKindCode" type="RequestExaminationKindCodeType"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RequestSoftwareType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="RequestSoftwareType">
+		<xs:sequence>
+			<xs:element name="RequestSoftwareName" type="xs:string"/>
+			<xs:element name="RequestSoftwareVersion" type="xs:string" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : SignatoryType.xsd                                        -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="SignatoryType">
+		<xs:sequence>
+			<xs:element name="SignatoryName" type="NameType"/>
+			<xs:element name="SignatoryAddress" type="AddressType" minOccurs="0"/>
+			<xs:element name="SignatureDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="SignaturePlace" type="xs:string" minOccurs="0"/>
+			<xs:element name="SignatureManner" type="SignatureMannerType" minOccurs="0"/>
+			<xs:element name="SignatureAssociatedText" type="xs:string" minOccurs="0"/>
+			<xs:element name="SignatoryCapacityCode" type="RoleType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : StaffType.xsd                                            -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="StaffType">
+		<xs:sequence>
+			<xs:element name="StaffIdentifier" type="xs:token" minOccurs="0"/>
+			<xs:element name="StaffName" type="xs:token" minOccurs="0"/>
+			<xs:element name="OfficialTitle" type="xs:token" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : VersionType.xsd                                          -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="VersionType">
+		<xs:sequence>
+			<xs:element name="VersionNumber" type="xs:string" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="VersionDate" type="xs:date"/>
+				<xs:element name="VersionDateTime" type="xs:dateTime"/>
+			</xs:choice>
+			<xs:element name="Comment" type="TextType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ViewCategoryType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ViewCategoryType">
+		<xs:sequence>
+			<xs:element name="CategoryKind" type="CategoryKindType" minOccurs="0"/>
+			<xs:element name="CategoryVersion" type="xs:string" minOccurs="0"/>
+			<xs:element name="CategoryCodeDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CategoryCode" type="CategoryCodeType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ViewRepresentationSizeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ViewRepresentationSizeType">
+		<xs:sequence>
+			<xs:element name="Height" type="xs:integer" minOccurs="0"/>
+			<xs:element name="Width" type="xs:integer" minOccurs="0"/>
+			<xs:element name="Unit" type="UnitType" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ViewType.xsd                                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="ViewType">
+		<xs:sequence>
+			<xs:element name="ViewSequenceNumber" type="xs:int"/>
+			<xs:element name="ViewNumber" type="xs:int"/>
+			<xs:element name="ViewFilename" type="xs:string"/>
+			<xs:element name="ViewFileFormat" type="FileFormatType" minOccurs="0"/>
+			<xs:element name="ViewTitle" type="TextType" minOccurs="0"/>
+			<xs:element name="ViewColourIndicator" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="ViewKind" type="ViewKindType" minOccurs="0"/>
+			<xs:element name="ViewRepresentationSize" type="ViewRepresentationSizeType" minOccurs="0"/>
+			<xs:element name="ViewCategory" type="ViewCategoryType" minOccurs="0"/>
+			<xs:element name="ViewBinary" type="xs:base64Binary" minOccurs="0"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ********************************************************************** -->
+	<!-- ********************************************************************** -->
+	<!-- * ADDITIONAL TYPES LIBRARY ******************************************* -->
+	<!-- * ******************************************************************** -->
+	<!-- ********************************************************************** -->
+	<!-- ====================================================================== -->
+	<!-- Filename    : AccountDebitKindType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="AccountDebitKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Basic Fee Immediate"/>
+					<xs:enumeration value="Basic Fee End of Period"/>
+					<xs:enumeration value="Basic and Class Fee"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : AmountType.xsd                                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="AmountType">
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+				<xs:attribute name="currencyCode" type="ISOCurrencyCodeType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : AuthorizationDocumentSupplyType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="AuthorizationDocumentSupplyType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Already on file"/>
+					<xs:enumeration value="Attached"/>
+					<xs:enumeration value="To follow"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : AuthorizationKindType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="AuthorizationKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="General Authorization"/>
+					<xs:enumeration value="Specific Authorization"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CardKindCodeType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="CardKindCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Credit Card"/>
+					<xs:enumeration value="Debit Card"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CategoryCodeType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="CategoryCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9][0-9].[0-9][0-9].[0-9][0-9]|[0-9][0-9].[0-9][0-9]|([0-9][0-9]){4}|([0-9][0-9]){6}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CategoryKindType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="CategoryKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Vienna"/>
+					<xs:enumeration value="Domestic"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ChipCodeType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ChipCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Chip"/>
+					<xs:enumeration value="MagneticStripe"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CitationKindType.xsd                                     -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="CitationKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Design"/>
+					<xs:enumeration value="Patent"/>
+					<xs:enumeration value="Trade Mark"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ClassNumberType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ClassNumberType">
+		<xs:union memberTypes="xs:token LocarnoClassNumberType"/>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ClassificationKindCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ClassificationKindCodeType">
+		<xs:union memberTypes="WIPOST3CodeType xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Locarno"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : CorrespondenceAddressPartyType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="CorrespondenceAddressPartyType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Applicant"/>
+					<xs:enumeration value="Representative"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignApplicationCurrentStatusCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignApplicationCurrentStatusCodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Filed"/>
+			<xs:enumeration value="Withdrawn"/>
+			<xs:enumeration value="Rejected"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignApplicationEventCodeType.xsd                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignApplicationEventCodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Filed"/>
+			<xs:enumeration value="Withdrawn"/>
+			<xs:enumeration value="Rejected"/>
+			<xs:enumeration value="Undefined"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignBasicRecordKindType.xsd                            -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignBasicRecordKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Registration"/>
+					<xs:enumeration value="Protection Granted"/>
+					<xs:enumeration value="Judicial Action"/>
+					<xs:enumeration value="Renunciation"/>
+					<xs:enumeration value="Transfer Refusal"/>
+					<xs:enumeration value="Representative Appointment"/>
+					<xs:enumeration value="Appeal Withdrawn"/>
+					<xs:enumeration value="Total Invalidation"/>
+					<xs:enumeration value="Partial Invalidation"/>
+					<xs:enumeration value="Total Cancellation"/>
+					<xs:enumeration value="Partial Cancellation"/>
+					<xs:enumeration value="Total Refusal"/>
+					<xs:enumeration value="Partial Refusal"/>
+					<xs:enumeration value="Final Total Refusal"/>
+					<xs:enumeration value="Final Confirmation Refusal "/>
+					<xs:enumeration value="Final Other Decision"/>
+					<xs:enumeration value="Complementary Renewal"/>
+					<xs:enumeration value="Renewal"/>
+					<xs:enumeration value="Renewal Certain Parties"/>
+					<xs:enumeration value="Non Renewal"/>
+					<xs:enumeration value="Limitation"/>
+					<xs:enumeration value="Correction"/>
+					<xs:enumeration value="Creation"/>
+					<xs:enumeration value="Refus Partiel"/>
+					<xs:enumeration value="Refus Total"/>
+					<xs:enumeration value="Non Renouvellement"/>
+					<xs:enumeration value="Constitution Mandataire"/>
+					<xs:enumeration value="Renouvellement"/>
+					<xs:enumeration value="Prorogation"/>
+					<xs:enumeration value="Cession Partielle"/>
+					<xs:enumeration value="Inscription Du Createur"/>
+					<xs:enumeration value="Modification Du Titulaire"/>
+					<xs:enumeration value="Ouverture De Depot Cachete"/>
+					<xs:enumeration value="Renonciation Au Depot"/>
+					<xs:enumeration value="Renonciation Au Mandat"/>
+					<xs:enumeration value="Revocation De Mandataire"/>
+					<xs:enumeration value="Fin Ajournement"/>
+					<xs:enumeration value="Modification Du Mandataire"/>
+					<xs:enumeration value="Changement De Titulaire"/>
+					<xs:enumeration value="Cessation De Protection"/>
+					<xs:enumeration value="Rectifications"/>
+					<xs:enumeration value="Retrait Du Refus De Protection"/>
+					<xs:enumeration value="Transmission totale de proprit"/>
+					<xs:enumeration value="Changement de dnomination"/>
+					<xs:enumeration value="Changement d'adresse"/>
+					<xs:enumeration value="Changement de nature juridique"/>
+					<xs:enumeration value="Division de proprit"/>
+					<xs:enumeration value="Publication"/>
+					<xs:enumeration value="Rectification d'erreur matriel"/>
+					<xs:enumeration value="Dcision judiciaire dfinitive d'un titre de proprit industrielle"/>
+					<xs:enumeration value="inscription"/>
+					<!--  Ajouter ici les valeurs specifiques pour l'INPI-->
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignCurrentStatusCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignCurrentStatusCodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Filed"/>
+			<xs:enumeration value="Withdrawn"/>
+			<xs:enumeration value="Rejected"/>
+			<xs:enumeration value="Registered"/>
+			<xs:enumeration value="Cancelled"/>
+			<xs:enumeration value="Expired"/>
+			<xs:enumeration value="Undefined"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignSpecimenKindType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignSpecimenKindType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Object"/>
+			<xs:enumeration value="Model"/>
+			<xs:enumeration value="Sample"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignEventCodeType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignEventCodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Withdrawn"/>
+			<xs:enumeration value="Registered"/>
+			<xs:enumeration value="Expired"/>
+			<xs:enumeration value="Undefined"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DesignatedUnderCodeType.xsd                              -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DesignatedUnderCodeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Hague Agreement - 1999 Act"/>
+			<xs:enumeration value="Hague Agreement - 1960 Act"/>
+			<xs:enumeration value="Hague Agreement - 1934 Act"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : DocumentMediaType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="DocumentMediaType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Paper"/>
+					<xs:enumeration value="Fax"/>
+					<xs:enumeration value="File"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : EarlierDesignKindType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="EarlierDesignKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Registered design"/>
+					<xs:enumeration value="Unregistered design"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : EarlierRightKindType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="EarlierRightKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Filing date"/>
+					<xs:enumeration value="Registration date"/>
+					<xs:enumeration value="Use date"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ExhibitionStatusCodeType.xsd                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ExhibitionStatusCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Claimed"/>
+					<xs:enumeration value="Accepted"/>
+					<xs:enumeration value="Refused"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ExtendedISOCountryCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-12-17                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ExtendedISOCountryCodeType">
+		<xs:union memberTypes="ISOCountryCodeType ISOFormerCountryCodeType"/>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ExtendedISOLanguageCodeType.xsd                          -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ExtendedISOLanguageCodeType">
+		<xs:union memberTypes="ISOLanguageCodeType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ExtendedWIPOST3CodeType.xsd                              -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ExtendedWIPOST3CodeType">
+		<xs:union memberTypes="WIPOST3CodeType WIPOFormerST3CodeType"/>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : FileFormatType.xsd                                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="FileFormatType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="JPEG"/>
+					<xs:enumeration value="TIFF"/>
+					<xs:enumeration value="PNG"/>
+					<xs:enumeration value="GIF"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : GenderType.xsd                                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="GenderType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Male"/>
+			<xs:enumeration value="Female"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : IdentifierType.xsd                                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="IdentifierType">
+		<xs:simpleContent>
+			<xs:extension base="xs:token">
+				<xs:attribute name="identifierKindCode" type="WIPOST3CodeType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : IndividualIdentifierType.xsd                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="IndividualIdentifierType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="National Individual Identifier"/>
+					<xs:enumeration value="Enterprise Identifier"/>
+					<xs:enumeration value="Social Security Number"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ISOFormerCountryCodeType.xsd                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-12-17                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ISOFormerCountryCodeType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="YU"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LicenceEventCodeType.xsd                                 -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="LicenceEventCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="To Check"/>
+					<xs:enumeration value="Withdrawn"/>
+					<xs:enumeration value="Rejected"/>
+					<xs:enumeration value="Accepted"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LicenceKindType.xsd                                      -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="LicenceKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Unknown"/>
+					<xs:enumeration value="Nonexclusive"/>
+					<xs:enumeration value="Exclusive"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LicenceStatusCodeType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="LicenceStatusCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="To Verify"/>
+					<xs:enumeration value="Valid"/>
+					<xs:enumeration value="Cancelled"/>
+					<xs:enumeration value="Expired"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LimitationCodeType.xsd                                   -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="LimitationCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="List limited to"/>
+					<xs:enumeration value="Remove from list"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : LocarnoClassNumberType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="LocarnoClassNumberType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9][0-9].[0-9][0-9]|[0-9][0-9]"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : NameKindType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="NameKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Natural Person"/>
+					<xs:enumeration value="Legal Entity"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : NationalityCodeType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="NationalityCodeType">
+		<xs:union memberTypes="ISOCountryCodeType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Stateless"/>
+					<xs:enumeration value="Unidentified"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OperationCodeType.xsd                                    -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="OperationCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Insert"/>
+					<xs:enumeration value="Update"/>
+					<xs:enumeration value="Delete"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OppositionBasisCodeType.xsd                              -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="OppositionBasisCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Design application"/>
+					<xs:enumeration value="Registered design"/>
+					<xs:enumeration value="Non-registered design"/>
+					<xs:enumeration value="Trade mark"/>
+					<xs:enumeration value="Patent"/>
+					<xs:enumeration value="Utility model"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OppositionCurrentStatusCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="OppositionCurrentStatusCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Opposition filed"/>
+					<xs:enumeration value="Admissibility checked"/>
+					<xs:enumeration value="Agreement between parties"/>
+					<xs:enumeration value="Final decision"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : OppositionEventCodeType.xsd                              -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="OppositionEventCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Opposition filed"/>
+					<xs:enumeration value="Admissibility checked"/>
+					<xs:enumeration value="Agreement between parties"/>
+					<xs:enumeration value="Final decision"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PaymentStatusCodeType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="PaymentStatusCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Done"/>
+					<xs:enumeration value="Attached"/>
+					<xs:enumeration value="To follow"/>
+					<xs:enumeration value="Bank transfer to follow"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PeriodCodeType.xsd                                       -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="PeriodCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="InYear"/>
+					<xs:enumeration value="InMonth"/>
+					<xs:enumeration value="InWeek"/>
+					<xs:enumeration value="InDay"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PeriodType.xsd                                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PeriodType">
+		<xs:simpleContent>
+			<xs:extension base="xs:positiveInteger">
+				<xs:attribute name="periodCode" type="PeriodCodeType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PhoneKindType.xsd                                        -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="PhoneKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Fixed"/>
+					<xs:enumeration value="Mobile Phone"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PhoneType.xsd                                            -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="PhoneType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="phoneKind" type="PhoneKindType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PriorityStatusCodeType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="PriorityStatusCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Claimed"/>
+					<xs:enumeration value="Abandoned"/>
+					<xs:enumeration value="Accepted"/>
+					<xs:enumeration value="Partially Refused"/>
+					<xs:enumeration value="Refused"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PublicationSectionType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="PublicationSectionType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Applications"/>
+					<xs:enumeration value="Amendments to applications"/>
+					<xs:enumeration value="Correction of errors on applications"/>
+					<xs:enumeration value="Withdrawals"/>
+					<xs:enumeration value="Limitations"/>
+					<xs:enumeration value="Total refusals"/>
+					<xs:enumeration value="Partial refusals"/>
+					<xs:enumeration value="Registrations with no amendments"/>
+					<xs:enumeration value="Registrations with amendments"/>
+					<xs:enumeration value="Correction of errors on registrations"/>
+					<xs:enumeration value="Total transfers"/>
+					<xs:enumeration value="Partial transfers"/>
+					<xs:enumeration value="Change of name and address of proprietor"/>
+					<xs:enumeration value="Change of name and professional address of representative"/>
+					<xs:enumeration value="Replacement of representative"/>
+					<xs:enumeration value="Appointment of a new representative"/>
+					<xs:enumeration value="Deletion of the representative"/>
+					<xs:enumeration value="Total surrender of designs"/>
+					<xs:enumeration value="Partial surrender of designs"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : PublicationSubsectionType.xsd                            -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="PublicationSubsectionType">
+		<xs:union memberTypes="xs:token xs:token"/>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordChangeNameAddressKindType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RecordChangeNameAddressKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Change Applicant Name or Address"/>
+					<xs:enumeration value="Holder"/>
+					<xs:enumeration value="Licensee"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordCurrentStatusCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RecordCurrentStatusCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Record filed"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordEventCodeType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RecordEventCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="To Check"/>
+					<xs:enumeration value="Withdrawn"/>
+					<xs:enumeration value="Rejected"/>
+					<xs:enumeration value="Accepted"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordLicenceKindType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RecordLicenceKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Licence"/>
+					<xs:enumeration value="Sub-Licence"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RecordTransferKindType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RecordTransferKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Total Transfer"/>
+					<xs:enumeration value="Partial Transfer"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ReimbursementStatusCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ReimbursementStatusCodeType">
+		<xs:union memberTypes="xs:token xs:token"/>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RelatedApplicationKindType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RelatedApplicationKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Division"/>
+					<xs:enumeration value="Related Design"/>
+					<xs:enumeration value="Design Application Based on Patent or Utility Model"/>
+					<xs:enumeration value="New Application for Amended Design"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RepresentativeKindCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RepresentativeKindCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Professional Representative"/>
+					<xs:enumeration value="Lawyer"/>
+					<xs:enumeration value="Association"/>
+					<xs:enumeration value="Employee"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RequestExaminationKindCodeType.xsd                           -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RequestExaminationKindCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Normal"/>
+					<xs:enumeration value="Accelerated"/>
+					<xs:enumeration value="Undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : RoleType.xsd                                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="RoleType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Agent"/>
+					<xs:enumeration value="Appeal examiner"/>
+					<xs:enumeration value="Applicant"/>
+					<xs:enumeration value="Assignee"/>
+					<xs:enumeration value="Assistant examiner"/>
+					<xs:enumeration value="Attorney"/>
+					<xs:enumeration value="Author"/>
+					<xs:enumeration value="Correspondent"/>
+					<xs:enumeration value="Creator"/>
+					<xs:enumeration value="Designer"/>
+					<xs:enumeration value="Employee"/>
+					<xs:enumeration value="Examiner"/>
+					<xs:enumeration value="Formality examiner"/>
+					<xs:enumeration value="Holder"/>
+					<xs:enumeration value="IP Office"/>
+					<xs:enumeration value="Judge"/>
+					<xs:enumeration value="Lawyer"/>
+					<xs:enumeration value="Legal practitioner"/>
+					<xs:enumeration value="Licensee"/>
+					<xs:enumeration value="Mortgagee"/>
+					<xs:enumeration value="Opponent"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="Owner"/>
+					<xs:enumeration value="Registrant"/>
+					<xs:enumeration value="Representative"/>
+					<xs:enumeration value="Substantive examiner"/>
+					<xs:enumeration value="Third Party Requestor"/>
+					<xs:enumeration value="Transferee"/>
+					<xs:enumeration value="Transferor"/>
+					<xs:enumeration value="Translator"/>
+					<xs:enumeration value="Trustee"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : SignatureMannerType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="SignatureMannerType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Fax Image"/>
+					<xs:enumeration value="Text"/>
+					<xs:enumeration value="Click Wrap"/>
+					<xs:enumeration value="PKCS7"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TextType.xsd                                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:complexType name="TextType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="languageCode" type="xs:language" use="optional"/>
+				<xs:attribute name="sequenceNumber" type="xs:integer" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionCodeType.xsd                                  -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="TransactionCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Design E-Filing"/>
+					<xs:enumeration value="Design B2B-Filing"/>
+					<xs:enumeration value="Design Information"/>
+					<xs:enumeration value="Design Identifier List"/>
+					<xs:enumeration value="Design List"/>
+					<xs:enumeration value="Design Opposition E-Filing"/>
+					<xs:enumeration value="Design Opposition Information"/>
+					<xs:enumeration value="Design Opposition Identifier List"/>
+					<xs:enumeration value="Representative Appointment"/>
+					<xs:enumeration value="Amendment Registered Design"/>
+					<xs:enumeration value="Amendment Application"/>
+					<xs:enumeration value="Convention Application"/>
+					<xs:enumeration value="Additional Application"/>
+					<xs:enumeration value="Subsequent Application"/>
+					<xs:enumeration value="Divisional Application"/>
+					<xs:enumeration value="Assignment Application"/>
+					<xs:enumeration value="Assignment Registered Design"/>
+					<xs:enumeration value="Request Certified Copies"/>
+					<xs:enumeration value="Request Extension Time"/>
+					<xs:enumeration value="Request Hearing"/>
+					<xs:enumeration value="Opposition First Extension"/>
+					<xs:enumeration value="Opposition Various Renewal/Extension of Registration Restoration"/>
+					<xs:enumeration value="Withdrawal"/>
+					<xs:enumeration value="Withdraw Application"/>
+					<xs:enumeration value="Withdraw Design"/>
+					<xs:enumeration value="Response Examination Report"/>
+					<xs:enumeration value="Statement Support"/>
+					<xs:enumeration value="Withdraw Service Request"/>
+					<xs:enumeration value="Request Publication"/>
+					<xs:enumeration value="Request Registration"/>
+					<xs:enumeration value="Offer Surrender"/>
+					<xs:enumeration value="Request Exclusion"/>
+					<xs:enumeration value="Request Conversion"/>
+					<xs:enumeration value="Duplicate Certificate"/>
+					<xs:enumeration value="Request Supply Documents"/>
+					<xs:enumeration value="Request Delayed Registration"/>
+					<xs:enumeration value="Request Accelerated Examination"/>
+					<xs:enumeration value="Expiry Notice"/>
+					<xs:enumeration value="Refusal Withdrawal Notification"/>
+					<xs:enumeration value="Division International Registration Notification"/>
+					<xs:enumeration value="Refusal Notification"/>
+					<xs:enumeration value="Providing Certificate To Holder"/>
+					<xs:enumeration value="Transmittal Application To IB"/>
+					<xs:enumeration value="Irregularities"/>
+					<xs:enumeration value="Invalidation Notification"/>
+					<xs:enumeration value="Cancellation Representative Appointment"/>
+					<xs:enumeration value="Application Receipt"/>
+					<xs:enumeration value="Notice Document By Design Formality Examination"/>
+					<xs:enumeration value="Notice Document By Design Substantial Examination"/>
+					<xs:enumeration value="Notice Document By Design Registration"/>
+					<xs:enumeration value="Notice Document By Trial Examination - Invitation"/>
+					<xs:enumeration value="Notice Document By Trial Examination"/>
+					<xs:enumeration value="Notice Document By Trial Examination - Decision"/>
+					<xs:enumeration value="Memo By Design Formality Examination"/>
+					<xs:enumeration value="Memo By Design Substantial Examination"/>
+					<xs:enumeration value="Memo By Trial Examination"/>
+					<xs:enumeration value="Memo By Trial Notice"/>
+					<xs:enumeration value="Memo By Trial Examination - Correction"/>
+					<xs:enumeration value="Accept Design Application Document"/>
+					<xs:enumeration value="Accept Design Applicant Document"/>
+					<xs:enumeration value="Accept Design Attorney Document"/>
+					<xs:enumeration value="Accept Design Withdrawal And Abandonment Document"/>
+					<xs:enumeration value="Accept Design Response Document"/>
+					<xs:enumeration value="Accept Design Submission Document"/>
+					<xs:enumeration value="Accept Design Amendment Document"/>
+					<xs:enumeration value="Accept Design Request For Inspection"/>
+					<xs:enumeration value="Accept Demand For A Trial"/>
+					<xs:enumeration value="Accept Trial Intermediate Document"/>
+					<xs:enumeration value="Inspection Accept Design Application Document"/>
+					<xs:enumeration value="Inspection Accept Design Applicant Document"/>
+					<xs:enumeration value="Inspection Accept Design Attorney Document"/>
+					<xs:enumeration value="Inspection Accept Design Withdrawal And Abandonment Document"/>
+					<xs:enumeration value="Inspection Accept Design Response Document"/>
+					<xs:enumeration value="Inspection Accept Design Submission Document"/>
+					<xs:enumeration value="Inspection Accept Design Amendment Document"/>
+					<xs:enumeration value="Inspection Accept Design Request For Inspection"/>
+					<xs:enumeration value="Inspection Accept Demand For A Trial"/>
+					<xs:enumeration value="Inspection Accept Trial Intermediate Document"/>
+					<xs:enumeration value="Inspection Notice Document By Design Formality Examination"/>
+					<xs:enumeration value="Inspection Notice Document By Design Substantial Examination"/>
+					<xs:enumeration value="Inspection Notice Document By Design Registration"/>
+					<xs:enumeration value="Inspection Notice Document By Trial Examination - Invitation"/>
+					<xs:enumeration value="Inspection Notice Document By Trial Examination"/>
+					<xs:enumeration value="Inspection Notice Document By Trial Examination - Decision"/>
+					<xs:enumeration value="Inspection Memo By Design Formality Examination"/>
+					<xs:enumeration value="Inspection Memo By Design Substantial Examination"/>
+					<xs:enumeration value="Inspection Memo By Trial Examination"/>
+					<xs:enumeration value="Inspection Memo By Trial Notice"/>
+					<xs:enumeration value="Certified Copy Notice Document By Design Formality Examination"/>
+					<xs:enumeration value="Certified Copy Notice Document By Design Substantial Examination"/>
+					<xs:enumeration value="Certified Copy Notice Document By Design Registration"/>
+					<xs:enumeration value="Certified Copy Notice Document By Trial Examination - Invitation"/>
+					<xs:enumeration value="Certified Copy Notice Document By Trial Examination"/>
+					<xs:enumeration value="Certified Copy Notice Document By Trial Examination - Decision"/>
+					<xs:enumeration value="Accept Document List"/>
+					<xs:enumeration value="Notice Document List"/>
+					<xs:enumeration value="Application Information"/>
+					<xs:enumeration value="Balance Sheet Reference"/>
+					<xs:enumeration value="Division Number List"/>
+					<xs:enumeration value="Record Licence"/>
+					<xs:enumeration value="Record Mortgagee"/>
+					<xs:enumeration value="Terminate Licence"/>
+					<xs:enumeration value="Discharge Mortgagee"/>
+					<xs:enumeration value="Change of Name"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : TransactionSubCodeType.xsd                               -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="TransactionSubCodeType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Normal"/>
+					<xs:enumeration value="Accelerated Registration"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : UnitType.xsd                                             -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="UnitType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Centimetre"/>
+			<xs:enumeration value="Inch"/>
+			<xs:enumeration value="Pixel"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : ViewKindType.xsd                                         -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="ViewKindType">
+		<xs:union memberTypes="xs:token">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="Image"/>
+					<xs:enumeration value="Drawing"/>
+					<xs:enumeration value="Photograph"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<!-- ====================================================================== -->
+	<!-- Filename    : WIPOFormerST3CodeType.xsd                                -->
+	<!-- Author      : SDWG ST.86 Task Force                                    -->
+	<!-- Version     : 1.0                                                      -->
+	<!-- Last Update : 2007-10-31                                               -->
+	<!-- ====================================================================== -->
+	<xs:simpleType name="WIPOFormerST3CodeType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="CS"/>
+			<xs:enumeration value="DL"/>
+			<xs:enumeration value="DD"/>
+			<xs:enumeration value="SU"/>
+			<xs:enumeration value="YD"/>
+			<xs:enumeration value="YU"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

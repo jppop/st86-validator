@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<st86:Transaction xmlns:st86="http://www.wipo.int/standards/XMLSchema/designs"
+	xmlns:fr="http://www.inpi.fr/standards/XMLSchema/designs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:maven="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="
+	  http://www.wipo.int/standards/XMLSchema/designs schemas/st86model-V1-0.xsd 
+	  http://www.inpi.fr/standards/XMLSchema/designs schemas/st86model-V1-0-fr.xsd
+	  http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
+	  ">
+	<st86:TransactionHeader>
+		<st86:SenderDetails />
+		<st86:ReceiverDetails />
+	</st86:TransactionHeader>
+	<st86:DesignTransactionBody>
+		<st86:TransactionContentDetails>
+			<st86:TransactionCode>Record Licence</st86:TransactionCode>
+			<st86:TransactionData>
+				<st86:DesignRecordDetails>
+					<st86:DesignRecord>
+						<st86:RecordLicence>
+							<st86:RecordLicenceKind>Other</st86:RecordLicenceKind>
+							<st86:ClaimantDetails>
+								<st86:ClaimantKey>
+									<fr:EtsPersonIdentifier>JB-007</fr:EtsPersonIdentifier>
+								</st86:ClaimantKey>
+							</st86:ClaimantDetails>
+							<st86:RepresentativeDetails>
+								<st86:Representative>
+									<st86:RepresentativeKindCode>
+										Professional Representative
+									</st86:RepresentativeKindCode>
+									<st86:RepresentativeAddressBook>
+										<st86:FreeFormatAddressDetails>
+											<st86:FreeFormatNameAddressLine>
+												15 rue des Minimes, CS50001 92677 Courbevoie Cedex
+											</st86:FreeFormatNameAddressLine>
+										</st86:FreeFormatAddressDetails></st86:RepresentativeAddressBook></st86:Representative>
+							</st86:RepresentativeDetails>
+							<st86:RecordEventDetails>
+								<st86:RecordEvent>
+									<st86:RecordEventCode>
+										To Check
+									</st86:RecordEventCode>
+									<st86:Comment>Un commentaire</st86:Comment>
+									<maven:project></maven:project>
+									<fr:RecordEventCodeEx>extension - Polynésie Française</fr:RecordEventCodeEx>
+								</st86:RecordEvent>
+							</st86:RecordEventDetails>
+						</st86:RecordLicence>
+					</st86:DesignRecord>
+				</st86:DesignRecordDetails>
+			</st86:TransactionData>
+		</st86:TransactionContentDetails>
+	</st86:DesignTransactionBody>
+</st86:Transaction>
