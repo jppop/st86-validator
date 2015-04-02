@@ -12,20 +12,13 @@ public class ClasspathResolver implements LSResourceResolver {
 		this.parentResolver = resourceResolver;
 	}
 
-	public LSInput resolveResource(final String type, final String namespaceURI, final String publicId,
-			final String systemId, final String baseURI) {
+	public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
 
-		String classpathRelatedSystemId = systemId;
 		try {
-			URL url = this.getClass().getResource(classpathRelatedSystemId);
+			URL url = this.getClass().getResource(systemId);
 			if (url == null) {
-				if (!classpathRelatedSystemId.startsWith("/")) {
-					classpathRelatedSystemId = "/" + systemId;
-					if (!classpathRelatedSystemId.startsWith(prefix)) {
-						classpathRelatedSystemId = prefix + systemId;
-					}
-					url = this.getClass().getResource(classpathRelatedSystemId);
-				}
+				systemId = prefix + "/" + systemId;
+				url = this.getClass().getResource(systemId);
 			}
 			if (url == null) {
 				return delegateResolution(type, namespaceURI, publicId, systemId, baseURI);
@@ -37,15 +30,13 @@ public class ClasspathResolver implements LSResourceResolver {
 		}
 	}
 
-	private LSInput delegateResolution(String type, String namespaceURI, String publicId, String systemId,
-			String baseURI) {
+	private LSInput delegateResolution(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
 		if (parentResolver != null) {
 			return parentResolver.resolveResource(type, namespaceURI, publicId, systemId, baseURI);
 		}
 		return null;
-
+		
 	}
-
 	/**
 	 * @return the prefix
 	 */
