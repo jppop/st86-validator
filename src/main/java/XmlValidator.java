@@ -12,24 +12,29 @@ import org.xml.sax.SAXException;
 public class XmlValidator {
 
 	public static void main(String[] args) {
-		for (int i = 0; i < args.length; i++) {
-			System.out.printf("checking file %s", args[i]);
-			try {
-				XmlValidator.validateXMLSchema(args[i]);
-				System.out.printf(": compliant\n", args[i]);
-			} catch (SAXException | IOException e) {
-				System.out.println(": error: " + e.getMessage());
+		if (args.length == 1) {
+			boolean isValid = XmlValidator.validateXMLSchema(args[0]);
+			if (isValid) {
+				System.out.printf("file %s is ST.86 compliant\n", args[0]);
 			}
 		}
+
 	}
 
-	public static void validateXMLSchema(String xmlPath) throws SAXException, IOException {
-
-		final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		schemaFactory.setResourceResolver(new ClasspathResolver(schemaFactory.getResourceResolver()));
-		Schema schema = schemaFactory.newSchema();
-		Validator validator = schema.newValidator();
-		validator.setResourceResolver(schemaFactory.getResourceResolver());
-		validator.validate(new StreamSource(new File(xmlPath)));
-	}
+	public static boolean validateXMLSchema(String xmlPath){
+           
+          try {
+              final SchemaFactory schemaFactory = 
+                      SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+              schemaFactory.setResourceResolver(new ClasspathResolver(schemaFactory.getResourceResolver()));
+              Schema schema = schemaFactory.newSchema();
+              Validator validator = schema.newValidator();
+              validator.setResourceResolver(schemaFactory.getResourceResolver());
+              validator.validate(new StreamSource(new File(xmlPath)));
+          } catch (IOException | SAXException e) {
+              System.out.println("Exception: "+e.getMessage());
+              return false;
+          }
+          return true;
+      }
 }

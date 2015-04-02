@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.inpi.fr/standards/XMLSchema/designs"
+	xmlns:tns="http://www.inpi.fr/standards/XMLSchema/designs"
+	elementFormDefault="qualified">
+
+	<!-- ETS Identifier -->
+	<xs:element name="EtsPersonIdentifier" type="xs:string" />
+
+	<!-- custom record event. Should be named  RecordEventCode-fr ? -->
+    <xs:element name="RecordEventCodeEx" type="tns:RecordEventCodeExType" />
+
+    <xs:simpleType name="RecordEventCodeExType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="extension - Polynésie Française"/>
+			<xs:enumeration value="extension - Nouvelle Calédonie"/>
+		</xs:restriction>
+    </xs:simpleType>
+</xs:schema>

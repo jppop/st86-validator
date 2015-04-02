@@ -4,7 +4,7 @@
 	xmlns:maven="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="
 	  http://www.wipo.int/standards/XMLSchema/designs schemas/st86model-V1-0.xsd 
-	  http://www.inpi.fr/standards/XMLSchema/designs schemas/st86model-V1-0-fr.xsd
+	  http://www.inpi.fr/standards/XMLSchema/designs schemas/st86model-V1.0-fr.xsd
 	  http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
 	  ">
 	<st86:TransactionHeader>
